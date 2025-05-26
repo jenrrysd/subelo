@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir Archivos</title>
+    <link rel="stylesheet" href="/style.css">
+        <!-- Metaetiquetas Open Graph -->
+    <!-- <meta property="og:title" content="Sube archivos">
+    <meta property="og:description" content="Sube o comparte tus archivos sin intermediarios.">
+    <meta property="og:image" content="https://subelo.dextre.xyz/imagenes/miniatura.png">
+    <meta property="og:url" content="https://subelo.dextre.xyz"> -->
+        <!-- favicon-->
+    <link rel="icon" type="image/png" href="/imagenes/favicon.png">
+</head>
+<body>
+    <div class="container">
+        <h1>Subir Archivo</h1>
+        <form method="post" enctype="multipart/form-data">
+            <input type="file" name="file" required>
+            <div class="buttons">
+                <input type="submit" value="Subir">
+                <input type="button" value="Limpiar" onclick="limpiarArchivo()">
+            </div>
+
+            <div id="progressContainer" style="display: none;">
+                <div class="progress-bar">
+                    <div class="progress" id="progressBar"></div>
+                </div>
+                <span id="progressText">0%</span>
+            </div>
+
+        </form>
+    </div>
+    <script src="/script.js"></script>
+</body>
+</html>
