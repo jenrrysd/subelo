@@ -11,13 +11,14 @@
     <!-- <meta property="og:image" content="https://subelo.dextre.xyz/imagenes/miniatura.png"> -->
     <!-- <meta property="og:url" content="https://subelo.dextre.xyz"> -->
         <!-- favicon-->
-    <link rel="icon" type="image/png" href="/imagenes/favicon.png">
+    <link rel="icon" type="image/png" href="/favicon.png">
 </head>
 <body>
     <div class="container">
-        <h1>Subir Archivo</h1>
+        <h1>Subir Archivos</h1>
+	<p>sin intermediarios</p>
         <form method="post" enctype="multipart/form-data">
-            <input type="file" name="file" required>
+            <input type="file" name="file" multiple required>
             <div class="buttons">
                 <input type="submit" value="Subir">
                 <input type="button" value="Limpiar" onclick="limpiarArchivo()">

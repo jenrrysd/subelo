@@ -36,9 +36,10 @@ document.querySelector('form').addEventListener('submit', function(e) {
     xhr.addEventListener('load', function() {
         if (xhr.status === 200) {
             // Obtenemos el nombre del archivo
-            const fileName = fileInput.files[0].name;
+           //const fileName = fileInput.files[0].name;
+            const fileCount = fileInput.files.length;
             // Mostramos "Terminado!!" y el nombre del archivo
-            progressText.innerHTML = 'Terminado!!<br><small>' + fileName + '</small>';
+            progressText.innerHTML = 'Terminado!!<br><small>' + fileCount + '</small>';
         } else {
             progressBar.style.backgroundColor = '#f44336';
             progressText.textContent = 'Falló al subir!!';
