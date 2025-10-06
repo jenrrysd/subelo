@@ -41,6 +41,7 @@ class FileUploadHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         try:
+<<<<<<< HEAD
             content_type, pdict = cgi.parse_header(self.headers['content-type'])
             
             if content_type == 'multipart/form-data':
@@ -63,6 +64,46 @@ class FileUploadHandler(BaseHTTPRequestHandler):
                 
                 self._set_response()
                 files_list = "<br>".join([f'"{f}"' for f in uploaded_files])
+=======
+            content_length = int(self.headers['Content-Length'])
+            content_type = self.headers['Content-Type']
+
+            if not content_type.startswith('multipart/form-data'):
+                raise Exception("Formato no soportado")
+
+            boundary = content_type.split('boundary=')[1].encode()
+            data = self.rfile.read(content_length)
+
+            parts = data.split(b'--' + boundary)
+            uploaded_files = []
+
+            for part in parts:
+                if b'Content-Disposition: form-data; name="file"; filename="' in part:
+                    # Extraer nombre del archivo
+                    filename_start = part.find(b'filename="') + 10
+                    filename_end = part.find(b'"', filename_start)
+                    filename = part[filename_start:filename_end].decode()
+                    filename = os.path.basename(filename)
+
+                    if filename:
+                        # Extraer contenido del archivo
+                        file_content_start = part.find(b'\r\n\r\n') + 4
+                        file_content_end = part.find(
+                            b'\r\n--', file_content_start)
+                        if file_content_end == -1:
+                            file_content_end = len(part) - 2
+
+                        file_content = part[file_content_start:file_content_end]
+
+                        # Guardar archivo
+                        with open(filename, 'wb') as f:
+                            f.write(file_content)
+                        uploaded_files.append(filename)
+
+            self._set_response()
+            if uploaded_files:
+                files_list = ', '.join(uploaded_files)
+>>>>>>> 72b289b (archivos modificados)
                 response = f'''
                     <!DOCTYPE html>
                     <html>
@@ -74,8 +115,12 @@ class FileUploadHandler(BaseHTTPRequestHandler):
                     </head>
                     <body>
                         <div class="container">
+<<<<<<< HEAD
                             <p>{len(uploaded_files)} archivo(s) subido(s) exitosamente:</p>
                             <p>{files_list}</p>
+=======
+                            <p>Archivos "{files_list}" subidos exitosamente.</p>
+>>>>>>> 72b289b (archivos modificados)
                             <div class="button-container">
                                 <button class="action-button" onclick="window.location.reload()">Volver</button>
                             </div>
@@ -83,9 +128,33 @@ class FileUploadHandler(BaseHTTPRequestHandler):
                     </body>
                     </html>
                 '''
+<<<<<<< HEAD
                 self.wfile.write(response.encode('utf-8'))
             else:
                 raise Exception("Formato no soportado")
+=======
+            else:
+                response = '''
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>Error</title>
+                        <link rel="stylesheet" href="/style.css">
+                    </head>
+                    <body>
+                        <div class="container">
+                            <p>No se seleccionaron archivos válidos.</p>
+                            <div class="button-container">
+                                <button class="action-button" onclick="history.back()">Volver</button>
+                            </div>
+                        </div>
+                    </body>
+                    </html>
+                '''
+            self.wfile.write(response.encode('utf-8'))
+>>>>>>> 72b289b (archivos modificados)
 
         except Exception as e:
             self._set_response()
@@ -101,7 +170,7 @@ class FileUploadHandler(BaseHTTPRequestHandler):
                 </head>
                 <body>
                     <div class="container">
-                        <p>Error al subir archivo: {str(e)}</p>
+                        <p>Error al subir archivos: {str(e)}</p>
                         <div class="button-container">
                             <button class="action-button" onclick="history.back()">Volver</button>
                         </div>
@@ -147,5 +216,8 @@ def run_server(port=7080):
 if __name__ == "__main__":
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 7080
     run_server(port)
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 72b289b (archivos modificados)

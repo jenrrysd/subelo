@@ -6,7 +6,7 @@ function limpiarArchivo() {
     document.getElementById('progressBar').style.backgroundColor = '#4CAF50';
 }
 
-document.querySelector('form').addEventListener('submit', function(e) {
+document.querySelector('form').addEventListener('submit', function (e) {
     e.preventDefault();
     const fileInput = document.querySelector('input[type="file"]');
     const progressContainer = document.getElementById('progressContainer');
@@ -20,12 +20,12 @@ document.querySelector('form').addEventListener('submit', function(e) {
     }
 
     progressContainer.style.display = 'block';
-    
+
     // Usar FormData para la subida
     const formData = new FormData(form);
     const xhr = new XMLHttpRequest();
 
-    xhr.upload.addEventListener('progress', function(event) {
+    xhr.upload.addEventListener('progress', function (event) {
         if (event.lengthComputable) {
             const percentComplete = (event.loaded / event.total) * 100;
             progressBar.style.width = percentComplete + '%';
@@ -33,20 +33,27 @@ document.querySelector('form').addEventListener('submit', function(e) {
         }
     });
 
-    xhr.addEventListener('load', function() {
+    xhr.addEventListener('load', function () {
         if (xhr.status === 200) {
             // Obtenemos el nombre del archivo
+<<<<<<< HEAD
            //const fileName = fileInput.files[0].name;
             const fileCount = fileInput.files.length;
             // Mostramos "Terminado!!" y el nombre del archivo
             progressText.innerHTML = 'Terminado!!<br><small>' + fileCount + '</small>';
+=======
+            const fileNames = Array.from(fileInput.files).map(file => file.name).join(', ');
+            // const fileName = fileInput.files[0].name;
+            // Mostramos "Terminado!!" y el nombre del archivo
+            progressText.innerHTML = 'Terminado!!<br><small>' + fileNames + '</small>';
+>>>>>>> 72b289b (archivos modificados)
         } else {
             progressBar.style.backgroundColor = '#f44336';
             progressText.textContent = 'Falló al subir!!';
         }
     });
 
-    xhr.addEventListener('error', function() {
+    xhr.addEventListener('error', function () {
         progressBar.style.backgroundColor = '#f44336';
         progressText.textContent = 'Falló al subir!!';
     });
