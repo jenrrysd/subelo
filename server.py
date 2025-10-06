@@ -41,7 +41,6 @@ class FileUploadHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         try:
-<<<<<<< HEAD
             content_type, pdict = cgi.parse_header(self.headers['content-type'])
             
             if content_type == 'multipart/form-data':
@@ -64,7 +63,6 @@ class FileUploadHandler(BaseHTTPRequestHandler):
                 
                 self._set_response()
                 files_list = "<br>".join([f'"{f}"' for f in uploaded_files])
-=======
             content_length = int(self.headers['Content-Length'])
             content_type = self.headers['Content-Type']
 
@@ -103,7 +101,6 @@ class FileUploadHandler(BaseHTTPRequestHandler):
             self._set_response()
             if uploaded_files:
                 files_list = ', '.join(uploaded_files)
->>>>>>> 72b289b (archivos modificados)
                 response = f'''
                     <!DOCTYPE html>
                     <html>
@@ -115,12 +112,9 @@ class FileUploadHandler(BaseHTTPRequestHandler):
                     </head>
                     <body>
                         <div class="container">
-<<<<<<< HEAD
                             <p>{len(uploaded_files)} archivo(s) subido(s) exitosamente:</p>
                             <p>{files_list}</p>
-=======
                             <p>Archivos "{files_list}" subidos exitosamente.</p>
->>>>>>> 72b289b (archivos modificados)
                             <div class="button-container">
                                 <button class="action-button" onclick="window.location.reload()">Volver</button>
                             </div>
@@ -128,11 +122,9 @@ class FileUploadHandler(BaseHTTPRequestHandler):
                     </body>
                     </html>
                 '''
-<<<<<<< HEAD
                 self.wfile.write(response.encode('utf-8'))
             else:
                 raise Exception("Formato no soportado")
-=======
             else:
                 response = '''
                     <!DOCTYPE html>
@@ -154,7 +146,6 @@ class FileUploadHandler(BaseHTTPRequestHandler):
                     </html>
                 '''
             self.wfile.write(response.encode('utf-8'))
->>>>>>> 72b289b (archivos modificados)
 
         except Exception as e:
             self._set_response()
@@ -216,8 +207,5 @@ def run_server(port=7080):
 if __name__ == "__main__":
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 7080
     run_server(port)
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 72b289b (archivos modificados)
