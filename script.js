@@ -36,10 +36,6 @@ document.querySelector('form').addEventListener('submit', function (e) {
     xhr.addEventListener('load', function () {
         if (xhr.status === 200) {
             // Obtenemos el nombre del archivo
-           //const fileName = fileInput.files[0].name;
-            const fileCount = fileInput.files.length;
-            // Mostramos "Terminado!!" y el nombre del archivo
-            progressText.innerHTML = 'Terminado!!<br><small>' + fileCount + '</small>';
             const fileNames = Array.from(fileInput.files).map(file => file.name).join(', ');
             // const fileName = fileInput.files[0].name;
             // Mostramos "Terminado!!" y el nombre del archivo

@@ -2,7 +2,6 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import subprocess
 import os
 import sys
-import cgi
 
 
 class FileUploadHandler(BaseHTTPRequestHandler):
@@ -41,28 +40,6 @@ class FileUploadHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         try:
-            content_type, pdict = cgi.parse_header(self.headers['content-type'])
-            
-            if content_type == 'multipart/form-data':
-                # Parsear el formulario multipart
-                form = cgi.FieldStorage(
-                    fp=self.rfile,
-                    headers=self.headers,
-                    environ={'REQUEST_METHOD': 'POST'}
-                )
-                
-                # Procesar cada archivo
-                uploaded_files = []
-                for field in form.list:
-                    if field.filename:
-                        # Guardar el archivo
-                        filename = os.path.basename(field.filename)
-                        with open(filename, 'wb') as f:
-                            f.write(field.file.read())
-                        uploaded_files.append(filename)
-                
-                self._set_response()
-                files_list = "<br>".join([f'"{f}"' for f in uploaded_files])
             content_length = int(self.headers['Content-Length'])
             content_type = self.headers['Content-Type']
 
@@ -112,8 +89,6 @@ class FileUploadHandler(BaseHTTPRequestHandler):
                     </head>
                     <body>
                         <div class="container">
-                            <p>{len(uploaded_files)} archivo(s) subido(s) exitosamente:</p>
-                            <p>{files_list}</p>
                             <p>Archivos "{files_list}" subidos exitosamente.</p>
                             <div class="button-container">
                                 <button class="action-button" onclick="window.location.reload()">Volver</button>
@@ -122,9 +97,6 @@ class FileUploadHandler(BaseHTTPRequestHandler):
                     </body>
                     </html>
                 '''
-                self.wfile.write(response.encode('utf-8'))
-            else:
-                raise Exception("Formato no soportado")
             else:
                 response = '''
                     <!DOCTYPE html>
@@ -157,7 +129,6 @@ class FileUploadHandler(BaseHTTPRequestHandler):
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <title>Error</title>
                     <link rel="stylesheet" href="/style.css">
-                    <link rel="icon" type="image/png" href="/imagenes/favicon.png">
                 </head>
                 <body>
                     <div class="container">
@@ -207,5 +178,3 @@ def run_server(port=7080):
 if __name__ == "__main__":
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 7080
     run_server(port)
-
-
